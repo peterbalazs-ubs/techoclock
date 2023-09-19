@@ -1,0 +1,122 @@
+openapi: 3.0.0
+
+info:
+  title: People API
+  description: Demo API
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8060
+    description: Dev Server
+
+paths:
+  /people:
+    get:
+      operationId: peopleList
+      summary: Returns a list of people.
+      responses:
+        '200':    # status code
+          description: A JSON array of people
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'be343369-ac66-49fb-a031-ae048512cd00'
+        title:
+          type: string
+          maxLength: 12
+          example: 'Mr.'
+        firstName:
+          type: string
+          example: 'Max'
+        lastName:
+          type: string
+          example: 'Muster'
+        fullName:
+          type: string
+          example: 'Max Muster'
+        dateOfBirth:
+          type: string
+          format: date
+        addressList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        phoneNumberList:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        emailAddressList:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailAddress'
+
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'be343369-ac66-49fb-a031-ae048512cd00'
+        postalCode:
+          type: string
+          maxLength: 12
+          example: '8000'
+        town:
+          type: string
+          example: 'Zürich'
+        street:
+          type: string
+          example: 'Flur'
+        streetNumber:
+          type: string
+          maxLength: 8
+          example: '66'
+
+    PhoneNumber:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'be343369-ac66-49fb-a031-ae048512cd00'
+        countryCode:
+          type: string
+          maxLength: 5
+          example: '+41'
+        localNumber:
+          type: string
+          maxLength: 12
+          example: '0789898989'
+        internationalFormat:
+          type: string
+          maxLength: 16
+          example: '+41789898989'
+        smsCapable:
+          type: boolean
+          example: true
+        whatsAppEnabled:
+          type: boolean
+          example: true
+
+    EmailAddress:
+      type: object
+      properties:
+        emailAddress:
+          type: string
+          format: email
+          example: 'max.muster@ubs.com'
+        secureCommunication:
+          type: boolean
+          example: true

@@ -1,0 +1,11 @@
+quickdev1:
+  repositories:
+    people:
+      url: http://localhost:8060/people
+    realEstate:
+      url: http://localhost:8060/real-estate
+
+logging:
+  level:
+    root: info
+    com.ubs.pbalazs.demo.quickdev1.repsitories.PeopleRepository: debug

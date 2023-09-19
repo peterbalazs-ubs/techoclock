@@ -1,0 +1,112 @@
+openapi: 3.0.0
+
+info:
+  title: Demo API
+  description: Demo API
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8080
+    description: Dev Server
+
+paths:
+  /mortgage-request:
+    post:
+      tags:
+        - Mortgage Request
+      operationId: mortgageRequest
+      summary: submit a mortgage request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MortgageRequest'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+          content:
+            application/json+problem:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+components:
+
+  schemas:
+    BadRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          example: 'Missing field'
+        field:
+          type: string
+          example: 'realEstate.address.postalCode'
+
+    MortgageRequest:
+      type: object
+      properties:
+        requester:
+          $ref: '#/components/schemas/Requester'
+        property:
+          $ref: '#/components/schemas/RealEstate'
+
+    Requester:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: 'Max'
+        lastName:
+          type: string
+          example: 'Muster'
+        title:
+          type: string
+          enum:
+            - MR
+            - MS
+            - MRS
+            - DR
+        phone:
+          type: string
+          example: '0789898989'
+        email:
+          type: string
+          format: email
+          example: 'max.muster@ubs.com'
+
+    RealEstate:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        lotSize:
+          type: number
+          example: 600
+        livingSize:
+          type: number
+          example: 120
+        numberOfRooms:
+          type: string
+          example: '4.5'
+
+    Address:
+      type: object
+      properties:
+        postalCode:
+          type: number
+          minimum: 1000
+          maximum: 9999
+          example: 8000
+        town:
+          type: string
+          example: 'Zuerich'
+        street:
+          type: string
+          example: 'Flur'
+        number:
+          type: string
+          example: '66'
+
